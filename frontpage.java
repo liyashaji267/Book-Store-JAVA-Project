@@ -16,7 +16,7 @@ public class frontpage extends JFrame implements ActionListener {
 
         // ===== Center Logo =====
         // Replace "logo.png" with your actual image file path
-        ImageIcon logoIcon = new ImageIcon("logo.png");
+        ImageIcon logoIcon = new ImageIcon("bf.png");
         JLabel logoLabel = new JLabel(logoIcon, JLabel.CENTER);
         add(logoLabel, BorderLayout.CENTER);
 
