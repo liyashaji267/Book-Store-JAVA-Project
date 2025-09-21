@@ -4,12 +4,19 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 /**
- * BookstoreApp.java
- *
  * Swing-based Bookstore Management System (Frontend Only)
  * Features:
  *  - Add / Update / Delete book inventory
@@ -20,9 +27,7 @@ import java.util.*;
  *  - Billing/cart system with membership discount & manual discount
  *  - Remove sold books from stock after checkout
  *  - Bills history (with optional customer name if consent given)
- *
- * No database is used — sample data is hardcoded. Replace with SQL backend later.
- */
+*/
 
 public class BookstoreApp extends JFrame {
 
@@ -53,23 +58,30 @@ public class BookstoreApp extends JFrame {
     }
 
     private void initSampleData() {
-        // Added stock as last parameter
-        inventory.add(new Book(nextBookId++, "Effective Java", "Joshua Bloch", "3rd", "Addison-Wesley",
-                "9780134685991", 45.00, "A1-Rack-3", 8));
-        inventory.add(new Book(nextBookId++, "Clean Code", "Robert C. Martin", "1st", "Prentice Hall",
-                "9780132350884", 40.00, "A1-Rack-7", 5));
-        inventory.add(new Book(nextBookId++, "Design Patterns", "Gang of Four", "1st", "Addison-Wesley",
-                "9780201633610", 55.00, "B2-Rack-1", 10));
-        inventory.add(new Book(nextBookId++, "Java: The Complete Reference", "Herbert Schildt", "11th", "McGraw-Hill",
-                "9781260463417", 35.00, "C3-Rack-2", 6));
+        try (Connection con = DBUtil.getConnection();
+         Statement st = con.createStatement();
+         ResultSet rs = st.executeQuery("SELECT * FROM books")) {
 
-        substore.add(new Book(5001, "Introduction to Algorithms", "Cormen et al.", "3rd", "MIT Press",
-                "9780262033848", 80.00, "", 12));
-        substore.add(new Book(5002, "Refactoring", "Martin Fowler", "2nd", "Addison-Wesley",
-                "9780134757599", 48.00, "", 4));
-        substore.add(new Book(5003, "The Pragmatic Programmer", "Andrew Hunt", "2nd", "Addison-Wesley",
-                "9780135957059", 42.50, "", 7));
+            while (rs.next()) {
+                inventory.add(new Book(
+                    rs.getInt("id"),
+                    rs.getString("title"),
+                    rs.getString("author"),
+                    rs.getString("edition"),
+                    rs.getString("publisher"),
+                    rs.getString("isbn"),
+                    rs.getDouble("price"),
+                    rs.getString("location"),
+                    rs.getInt("stock")
+                ));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("❌ Could not load books from database.");
+        }
     }
+
 
     private void initUI() {
         JTabbedPane tabs = new JTabbedPane();
