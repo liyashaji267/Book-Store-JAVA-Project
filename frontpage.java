@@ -2,11 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class FrontPage extends JFrame implements ActionListener {
+public class frontpage extends JFrame implements ActionListener {
     
     JButton loginBtn;
 
-    public FrontPage() {
+    public frontpage() {
         // Frame settings
         setTitle("Front Page");
         setSize(600, 400);
@@ -43,7 +43,7 @@ public class FrontPage extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        new FrontPage();
+        new frontpage();
     }
 }
 
