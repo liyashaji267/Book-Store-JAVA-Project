@@ -1,5 +1,5 @@
 javac -cp .;mysql-connector-j-8.0.xx.jar *.java
-java -cp .;mysql-connector-j-8.0.xx.jar BookstoreLogin
+java -cp .;mysql-connector-j-8.0.xx.jar frontpage
 
 
 to run TestDB(to check whether the sql file is working)
