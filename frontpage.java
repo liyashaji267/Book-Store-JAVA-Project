@@ -15,35 +15,32 @@ public class frontpage extends JFrame implements ActionListener {
         setLayout(new BorderLayout());
 
         // ===== Center Logo =====
-        // Replace "logo.png" with your actual image file path
-        ImageIcon logoIcon = new ImageIcon("logo.png");
+        // Make sure BF.png is in the project folder or give absolute path
+        ImageIcon logoIcon = new ImageIcon("BF.png");
         JLabel logoLabel = new JLabel(logoIcon, JLabel.CENTER);
         add(logoLabel, BorderLayout.CENTER);
 
         // ===== Right Top Login Button =====
         JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.setOpaque(false); // Transparent panel
+        topPanel.setOpaque(false);
 
         loginBtn = new JButton("Login");
         loginBtn.addActionListener(this);
-
-        // Put login button on the right side of top panel
         topPanel.add(loginBtn, BorderLayout.EAST);
-        add(topPanel, BorderLayout.NORTH);
 
+        add(topPanel, BorderLayout.NORTH);
         setVisible(true);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == loginBtn) {
-            JOptionPane.showMessageDialog(this, "Opening Login Page...");
-            // Open your login JFrame here
+            dispose(); // ✅ Close frontpage
+            BookstoreLogin.main(null); // ✅ Open Login Page
         }
     }
 
     public static void main(String[] args) {
-        new frontpage();
+        new frontpage(); // ✅ Start with frontpage
     }
 }
-
